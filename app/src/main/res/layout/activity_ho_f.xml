@@ -11,4 +11,36 @@
         android:textSize="36dp"
         />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="127dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="675dp"
+        android:layout_marginEnd="281dp"
+        android:layout_marginRight="281dp"
+        android:layout_marginBottom="35dp"
+        android:text="Minimum score" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
+        android:layout_marginBottom="22dp"
+        android:ems="10"
+        android:hint="enter a number"
+        android:inputType="textPersonName" />
+
 </RelativeLayout>

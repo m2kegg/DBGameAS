@@ -3,7 +3,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class StatActivity extends Activity {
+public class      StatActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

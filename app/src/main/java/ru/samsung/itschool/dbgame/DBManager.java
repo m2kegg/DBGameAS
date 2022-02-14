@@ -28,14 +28,13 @@ public class DBManager {
 	private DBManager(Context context) {
 		this.context = context;
 		db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
-		createTablesIfNeedBe(); 
+		createTablesIfNeedBe();
 	}
 
 	void addResult(String username, int score) {
 		db.execSQL("INSERT INTO RESULTS VALUES ('" + username + "', " + score
 				+ ");");
 	}
-
 
 
 	ArrayList<Result> getAllResults() {
@@ -64,4 +63,19 @@ public class DBManager {
 		return dbFile.exists();
 	}
 
+	ArrayList<Result> getHighResults(int highScore) {
+
+		ArrayList<Result> data = new ArrayList<Result>();
+		Cursor cursor = db.rawQuery("SELECT * FROM RESULTS WHERE SCORE > highScore;", null);
+		boolean hasMoreData = cursor.moveToFirst();
+
+		while (hasMoreData) {
+			String name = cursor.getString(cursor.getColumnIndex("USERNAME"));
+			int score = Integer.parseInt(cursor.getString(cursor
+					.getColumnIndex("SCORE")));
+			data.add(new Result(name, score));
+			hasMoreData = cursor.moveToNext();
+		}
+		return data;
+	}
 }

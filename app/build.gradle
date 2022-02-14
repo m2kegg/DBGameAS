@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "26.1.1"
 
     defaultConfig {
         applicationId "ru.samsung.itschool.dbgame"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
     }
 
     buildTypes {
