@@ -3,6 +3,7 @@ package ru.samsung.itschool.dbgame;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,19 +35,25 @@ public class DBManager {
 	void addResult(String username, int score) {
 		db.execSQL("INSERT INTO RESULTS VALUES ('" + username + "', " + score
 				+ ");");
+		ContentValues contentValues = new ContentValues();
+		contentValues.put("username", username);
+		contentValues.put("score", score);
+		db.insert("RESULTS", null, contentValues);
 	}
 
 
 	ArrayList<Result> getAllResults() {
 
 		ArrayList<Result> data = new ArrayList<Result>();
-		Cursor cursor = db.rawQuery("SELECT * FROM RESULTS;", null);
+		//Cursor cursor = db.rawQuery("SELECT * FROM RESULTS;", null)
+		//Cursor cursor = db.rawQuery("SELECT * FROM RESULTS WHERE USERNAME = ? ORDER BY ? DESC", new String[]{"Player One", "SCORE"});
+		Cursor cursor = db.query("RESULTS", new String[]{"USERNAME", "MAX(SCORE)"}, null, null, "USERNAME", null,"MAX(SCORE) DESC");
 		boolean hasMoreData = cursor.moveToFirst();
 
 		while (hasMoreData) {
 			String name = cursor.getString(cursor.getColumnIndex("USERNAME"));
 			int score = Integer.parseInt(cursor.getString(cursor
-					.getColumnIndex("SCORE")));
+					.getColumnIndex("MAX(SCORE)")));
 			data.add(new Result(name, score));
 			hasMoreData = cursor.moveToNext();
 		}
