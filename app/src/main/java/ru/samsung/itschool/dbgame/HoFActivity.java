@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class HoFActivity extends Activity {
 
@@ -18,7 +15,7 @@ public class HoFActivity extends Activity {
 		setContentView(R.layout.activity_ho_f);
 		dbManager = DBManager.getInstance(this);
 
-		ListView listView = this.findViewById(R.id.gaysex);
+		ListView listView = this.findViewById(R.id.yrtm);
 		ArrayList<Result> results = dbManager.getAllResults();
 		String[] res = new String[results.size()];
 		String resStr = "";

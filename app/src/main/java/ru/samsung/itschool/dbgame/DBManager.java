@@ -33,8 +33,6 @@ public class DBManager {
 	}
 
 	void addResult(String username, int score) {
-		db.execSQL("INSERT INTO RESULTS VALUES ('" + username + "', " + score
-				+ ");");
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("username", username);
 		contentValues.put("score", score);
@@ -45,15 +43,15 @@ public class DBManager {
 	ArrayList<Result> getAllResults() {
 
 		ArrayList<Result> data = new ArrayList<Result>();
-		//Cursor cursor = db.rawQuery("SELECT * FROM RESULTS;", null)
+		Cursor cursor = db.rawQuery("SELECT * FROM RESULTS;", null);
 		//Cursor cursor = db.rawQuery("SELECT * FROM RESULTS WHERE USERNAME = ? ORDER BY ? DESC", new String[]{"Player One", "SCORE"});
-		Cursor cursor = db.query("RESULTS", new String[]{"USERNAME", "MAX(SCORE)"}, null, null, "USERNAME", null,"MAX(SCORE) DESC");
+		//Cursor cursor = db.query("RESULTS", new String[]{"USERNAME", "SCORE"}, null, null, null, null,"MAX(SCORE) DESC");
 		boolean hasMoreData = cursor.moveToFirst();
 
 		while (hasMoreData) {
 			String name = cursor.getString(cursor.getColumnIndex("USERNAME"));
 			int score = Integer.parseInt(cursor.getString(cursor
-					.getColumnIndex("MAX(SCORE)")));
+					.getColumnIndex("SCORE")));
 			data.add(new Result(name, score));
 			hasMoreData = cursor.moveToNext();
 		}
@@ -70,17 +68,33 @@ public class DBManager {
 		return dbFile.exists();
 	}
 
-	ArrayList<Result> getHighResults(int highScore) {
+	ArrayList<Result> getHighResults() {
 
 		ArrayList<Result> data = new ArrayList<Result>();
-		Cursor cursor = db.rawQuery("SELECT * FROM RESULTS WHERE SCORE > highScore;", null);
+		Cursor cursor = db.rawQuery("SELECT USERNAME, MAX(SCORE) FROM RESULTS GROUP BY USERNAME;", null);
 		boolean hasMoreData = cursor.moveToFirst();
 
 		while (hasMoreData) {
 			String name = cursor.getString(cursor.getColumnIndex("USERNAME"));
 			int score = Integer.parseInt(cursor.getString(cursor
-					.getColumnIndex("SCORE")));
+					.getColumnIndex("MAX(SCORE)")));
 			data.add(new Result(name, score));
+			hasMoreData = cursor.moveToNext();
+		}
+		return data;
+	}
+
+	ArrayList<Result> getAvgResults() {
+
+		ArrayList<Result> data = new ArrayList<Result>();
+		Cursor cursor = db.rawQuery("SELECT USERNAME, AVG(SCORE) FROM RESULTS GROUP BY USERNAME;", null);
+		boolean hasMoreData = cursor.moveToFirst();
+
+		while (hasMoreData) {
+			String name = cursor.getString(cursor.getColumnIndex("USERNAME"));
+			double score = Double.parseDouble(cursor.getString(cursor
+					.getColumnIndex("AVG(SCORE)")));
+			data.add(new Result(name, (int)score));
 			hasMoreData = cursor.moveToNext();
 		}
 		return data;
